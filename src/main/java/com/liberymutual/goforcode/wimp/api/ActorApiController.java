@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.liberymutual.goforcode.wimp.models.Actor;
+import com.liberymutual.goforcode.wimp.models.ActorWithMovies;
 import com.liberymutual.goforcode.wimp.repositories.ActorRepository;
 
 @RestController
@@ -46,8 +47,17 @@ public class ActorApiController {
 		if(actor == null) {
 			throw new ActorNotFoundException();
 			
-		}
-		return actor;		
+		}/*
+		ActorWithMovies newActor = new ActorWithMovies();
+		newActor.setId(actor.getId());
+		newActor.setActiveSinceYear(actor.getActiveSinceYear());
+		newActor.setBirthDate(actor.getBirthDate());
+		newActor.setMovies(actor.getMovies());
+		newActor.setFirstName(actor.getFirstName());
+		newActor.setLastName(actor.getLastName());
+		return newActor;		*/
+	
+		return actor;
 	}
 	
 	@PostMapping("")

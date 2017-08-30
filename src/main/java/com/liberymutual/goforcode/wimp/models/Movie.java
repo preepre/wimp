@@ -1,13 +1,22 @@
 package com.liberymutual.goforcode.wimp.models;
 
+import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property="id")
 @Entity
 public class Movie {
 	
@@ -25,6 +34,10 @@ public class Movie {
 	@Column(nullable=false, length=500)
 	private String distributor;
 	
+	//Added relationship
+	@ManyToMany
+	private List<Actor> actors;
+	
 	public Movie() {}
 	
 	public Movie(String title, String distributor) {
@@ -40,6 +53,15 @@ public class Movie {
 		this.budget = budget;
 		
 	}
+	
+	//adding Actor
+	public void addActor(Actor actor) {
+		if(actors == null) {
+			actors = new ArrayList<Actor>();
+		}
+		actors.add(actor);
+		
+	}	
 
 	public Long getId() {
 		return id;
@@ -79,6 +101,14 @@ public class Movie {
 
 	public void setDistributor(String distributor) {
 		this.distributor = distributor;
+	}
+
+	public List<Actor> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<Actor> actors) {
+		this.actors = actors;
 	}
 	
 		
