@@ -1,6 +1,5 @@
 package com.liberymutual.goforcode.wimp.api;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,16 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.liberymutual.goforcode.wimp.models.Actor;
 import com.liberymutual.goforcode.wimp.models.ActorWithMovies;
+import com.liberymutual.goforcode.wimp.models.Award;
+import com.liberymutual.goforcode.wimp.models.Movie;
 import com.liberymutual.goforcode.wimp.repositories.ActorRepository;
+import com.liberymutual.goforcode.wimp.repositories.AwardRepository;
 
 @RestController
 @RequestMapping("/api/actors")
 public class ActorApiController {
 	
 	private ActorRepository actorRepo;
+	private AwardRepository awardRepo;
 	
-	public ActorApiController(ActorRepository actorRepo) {
+	public ActorApiController(ActorRepository actorRepo, AwardRepository awardRepo) {
 		this.actorRepo = actorRepo;
+		this.awardRepo = awardRepo;
+		
 		
 		actorRepo.save(new Actor("Brad", "Pitt"));
 		actorRepo.save(new Actor("Jennifer", "Anniston"));
@@ -71,6 +76,19 @@ public class ActorApiController {
 	public Actor update(@RequestBody Actor actor, @PathVariable long id) {
 		actor.setId(id);
 		return actorRepo.save(actor);
+	}
+	
+	@PostMapping("{actorId}/awards")
+	public Actor associateAwards(@PathVariable long actorId, @RequestBody Award award) {
+			
+		Actor actor = actorRepo.findOne(actorId);
+		award = awardRepo.findOne(award.getId());
+		
+		actor.addAward(award);
+		actorRepo.save(actor);
+		
+		return actor;
+		
 	}
 	
 	@DeleteMapping("{id}")

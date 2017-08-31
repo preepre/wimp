@@ -35,49 +35,48 @@ public class MovieApiController {
 		movieRepo.save(new Movie("Harry Potter and the Goblet of Fire", "WB"));
 
 	}
-	
+
 	@PostMapping("{movieId}/actors")
 	public Movie associateAnActor(@PathVariable long movieId, @RequestBody Actor actor) {
-		
+
 		Movie movie = movieRepo.findOne(movieId);
 		actor = actorRepo.findOne(actor.getId());
-		
+
 		movie.addActor(actor);
 		movieRepo.save(movie);
-		
-		
+
 		return movie;
-		
+
 	}
-	
+
 	@GetMapping("")
-	public List<Movie> getAll(){
-		return movieRepo.findAll();		
-		
+	public List<Movie> getAll() {
+		return movieRepo.findAll();
+
 	}
-	
+
 	@GetMapping("{id}")
 	public Movie getOne(@PathVariable long id) throws MovieNotFoundException {
 		Movie movie = movieRepo.findOne(id);
-		if(movie == null) {
+		if (movie == null) {
 			throw new MovieNotFoundException();
-			
+
 		}
-		return movie;		
+		return movie;
 	}
-	
+
 	@PostMapping("")
 	public Movie create(@RequestBody Movie movie) {
-		//RequestBody - the entire body of the post is for a cereal object
+		// RequestBody - the entire body of the post is for a cereal object
 		return movieRepo.save(movie);
 	}
-	
+
 	@PutMapping("{id}")
 	public Movie update(@RequestBody Movie movie, @PathVariable long id) {
 		movie.setId(id);
 		return movieRepo.save(movie);
 	}
-	
+
 	@DeleteMapping("{id}")
 	public Movie delete(@PathVariable long id) {
 		try {
@@ -88,7 +87,5 @@ public class MovieApiController {
 			return null;
 		}
 	}
-	
-	
 
 }
