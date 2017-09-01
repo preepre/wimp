@@ -18,8 +18,11 @@ import com.liberymutual.goforcode.wimp.models.Movie;
 import com.liberymutual.goforcode.wimp.repositories.ActorRepository;
 import com.liberymutual.goforcode.wimp.repositories.MovieRepository;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/api/movies")
+@Api(description="Use this to get and create movies and add actors to movies")
 public class MovieApiController {
 
 	private MovieRepository movieRepo;

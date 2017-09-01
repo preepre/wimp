@@ -19,8 +19,12 @@ import com.liberymutual.goforcode.wimp.models.Movie;
 import com.liberymutual.goforcode.wimp.repositories.ActorRepository;
 import com.liberymutual.goforcode.wimp.repositories.AwardRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api/actors")
+@Api(description="Use this to get and create actors and add awards to actors")
 public class ActorApiController {
 	
 	private ActorRepository actorRepo;
@@ -45,7 +49,8 @@ public class ActorApiController {
 		
 	}
 	
-	
+	@ApiOperation(value="Find actor by ID", 
+			notes="Try this because you want to see all the actors for a certain ID")
 	@GetMapping("{id}")
 	public Actor getOne(@PathVariable long id) throws ActorNotFoundException {
 		Actor actor = actorRepo.findOne(id);
